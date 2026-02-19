@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const User = require("../Model/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -41,7 +41,11 @@ exports.adminLogin = async (req, res) => {
 
   const admin = await User.findOne({ email });
 
-  if (admin && admin.role === "admin" && (await bcrypt.compare(password, admin.password))) {
+  if (
+    admin &&
+    admin.role === "admin" &&
+    (await bcrypt.compare(password, admin.password))
+  ) {
     res.json({
       _id: admin._id,
       name: admin.name,
