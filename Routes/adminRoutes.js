@@ -17,7 +17,7 @@ router.post("/register", async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const admin = await Admin.create({
-    name,
+    name, 
     email,
     password: hashedPassword,
   });
@@ -40,7 +40,7 @@ router.post("/login", async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "1d" },
     );
-
+ 
     res.json({
       message: "Login Successful",
       token,
