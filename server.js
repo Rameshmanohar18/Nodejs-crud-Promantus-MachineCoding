@@ -11,7 +11,7 @@ app.get("/", (req, res) => {
 });
 
 // Middleware
-app.use(express.json());
+app.use(express.json());                                         
 
 // Connect to MongoDB
 connectDb();
@@ -35,7 +35,7 @@ app.use("/api/users", require("./Routes/userRoutes"));
 // app.use(limiter);
 
 //Port
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 // Start Server
 app.listen(PORT, () => {
