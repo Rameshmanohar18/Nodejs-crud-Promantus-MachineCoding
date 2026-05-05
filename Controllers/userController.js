@@ -148,17 +148,25 @@ exports.createUser = async (req, res) => {
 
 // Get All Users
 exports.getUsers = async (req, res) => {
-  const users = await User.find().select("-password");
-  res.json(users);
+  try {
+    const users = await User.find().select("-password");
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 // Get Single User
 exports.getUserById = async (req, res) => {
-  const user = await User.findById(req.params.id).select("-password");
+  try {
+    const user = await User.findById(req.params.id).select("-password");
 
-  if (!user) return res.status(404).json({ message: "User not found" });
+    if (!user) return res.status(404).json({ message: "User not found" });
 
-  res.json(user);
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 // Update User
