@@ -5,6 +5,7 @@ const validate = require("../Middleware/validationMiddleware");
 const { registerSchema, loginSchema } = require("../Validations/authValidation");
 
 const router = express.Router();
+  
 
 // Public routes
 router.post("/register", validate(registerSchema), registerAdmin);

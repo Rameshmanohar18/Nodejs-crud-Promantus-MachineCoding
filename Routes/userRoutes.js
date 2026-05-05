@@ -12,6 +12,7 @@ const { createUserSchema } = require("../Validations/authValidation");
 
 const router = express.Router();
 
+
 // All user routes are protected — admin only
 router.post("/", protectAdmin, validate(createUserSchema), createUser);
 router.get("/", protectAdmin, getUsers);
