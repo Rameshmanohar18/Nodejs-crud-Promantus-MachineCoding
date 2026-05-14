@@ -1,15 +1,13 @@
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
-const Admin = require("../Model/admin");
-const RefreshToken = require("../Model/RefreshToken");
+import jwt from "jsonwebtoken";
+import RefreshToken from "../Model/RefreshToken.js";
 
-const generateAccessToken = (admin) => {
+export const generateAccessToken = (admin) => {
   return jwt.sign({ id: admin._id, role: admin.role }, process.env.JWT_SECRET, {
     expiresIn: "15m",
   });
 };
 
-const generateRefreshToken = async (admin) => {
+export const generateRefreshToken = async (admin) => {
   const token = jwt.sign({ id: admin._id }, process.env.JWT_REFRESH_SECRET, {
     expiresIn: "7d",
   });
@@ -23,7 +21,3 @@ const generateRefreshToken = async (admin) => {
   return token;
 };
 
-module.exports = {
-  generateAccessToken,
-  generateRefreshToken,
-};

@@ -1,4 +1,4 @@
-// const mongoose = require("mongoose");
+// import mongoose from "mongoose";
 
 // const adminSchema = new mongoose.Schema(
 //   {
@@ -24,9 +24,9 @@
 //   { timestamps: true },
 // );
    
-// module.exports = mongoose.model("Admin", adminSchema);
+// export default mongoose.model("Admin", adminSchema);
 
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const adminSchema = new mongoose.Schema(
   {
@@ -45,4 +45,4 @@ const adminSchema = new mongoose.Schema(
 // ─── Index for login query performance ────────────────────────────────────────
 // adminSchema.index({ email: 1 });
 
-module.exports = mongoose.model("Admin", adminSchema);
+export default mongoose.model("Admin", adminSchema);

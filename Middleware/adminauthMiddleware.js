@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-const Admin = require("../Model/admin");
+import jwt from "jsonwebtoken";
+import Admin from "../Model/admin.js";
 
 const protectAdmin = async (req, res, next) => {
 
@@ -34,4 +34,4 @@ const protectAdmin = async (req, res, next) => {
   }
 };
 
-module.exports = protectAdmin;
+export default protectAdmin;

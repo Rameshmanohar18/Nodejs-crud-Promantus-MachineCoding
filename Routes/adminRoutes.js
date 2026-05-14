@@ -1,22 +1,22 @@
-const express = require("express");
-const {
+import express from "express";
+import {
   registerAdmin,
   loginAdmin,
   refreshToken,
   logoutAdmin,
-} = require("../Controllers/adminController");
-const protectAdmin = require("../Middleware/adminauthMiddleware");
-const validate = require("../Middleware/validationMiddleware");
-const {
+} from "../Controllers/adminController.js";
+import protectAdmin from "../Middleware/adminauthMiddleware.js";
+import validate from "../Middleware/validationMiddleware.js";
+import {
   registerSchema,
   loginSchema,
-} = require("../Validations/authValidation");
+} from "../Validations/authValidation.js";
 
 /**
  * adminRoutes accepts authLimiter from server.js so the strict
  * rate limit (5 req/15min) applies only to login & register.
  */
-module.exports = (authLimiter) => {
+const createAdminRoutes = (authLimiter) => {
   const router = express.Router();
 
   // ─── Public Routes (strict rate limited) ────────────────────────────────────
@@ -40,3 +40,5 @@ module.exports = (authLimiter) => {
 
   return router;
 };
+
+export default createAdminRoutes;

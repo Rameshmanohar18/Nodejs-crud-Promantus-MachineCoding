@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
@@ -19,4 +19,4 @@ userSchema.index({ isDeleted: 1 });
 // Compound index: most queries filter by isDeleted + sort by createdAt
 userSchema.index({ isDeleted: 1, createdAt: -1 });
 
-module.exports = mongoose.model("User", userSchema);
+export default mongoose.model("User", userSchema);

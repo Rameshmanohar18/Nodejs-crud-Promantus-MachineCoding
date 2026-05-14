@@ -1,15 +1,15 @@
-const Admin = require("../Model/admin");
-const RefreshToken = require("../Model/RefreshToken");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const {
+import Admin from "../Model/admin.js";
+import RefreshToken from "../Model/RefreshToken.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import {
   generateAccessToken,
   generateRefreshToken,
-} = require("../Services/authService");
-const asyncHandler = require("../Utils/asyncHandler");
+} from "../Services/authService.js";
+import asyncHandler from "../Utils/asyncHandler.js";
 
 // ─── Register Admin ────────────────────────────────────────────────────────────
-exports.registerAdmin = asyncHandler(async (req, res) => {
+export const registerAdmin = asyncHandler(async (req, res) => {
   const { name, email, password, role } = req.body;
 
   const adminExists = await Admin.findOne({ email });
@@ -39,7 +39,7 @@ exports.registerAdmin = asyncHandler(async (req, res) => {
 });
 
 // ─── Login Admin ───────────────────────────────────────────────────────────────
-exports.loginAdmin = asyncHandler(async (req, res) => {
+export const loginAdmin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const admin = await Admin.findOne({ email });
@@ -62,7 +62,7 @@ exports.loginAdmin = asyncHandler(async (req, res) => {
 });
 
 // ─── Refresh Access Token ──────────────────────────────────────────────────────
-exports.refreshToken = asyncHandler(async (req, res) => {
+export const refreshToken = asyncHandler(async (req, res) => {
   const { refreshToken } = req.body;
 
   if (!refreshToken)
@@ -89,7 +89,7 @@ exports.refreshToken = asyncHandler(async (req, res) => {
 });
 
 // ─── Logout Admin ──────────────────────────────────────────────────────────────
-exports.logoutAdmin = asyncHandler(async (req, res) => {
+export const logoutAdmin = asyncHandler(async (req, res) => {
   const { refreshToken } = req.body;
 
   if (!refreshToken)

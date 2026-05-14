@@ -1,13 +1,15 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const cors = require("cors");
-const helmet = require("helmet");
-const morgan = require("morgan");
-const compression = require("compression");
-const rateLimit = require("express-rate-limit");
-const connectDb = require("./DB/connection");
-const setupSwagger = require("./Config/Swagger");
-const requestId = require("./Middleware/requestIdMiddleware");
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import helmet from "helmet";
+import morgan from "morgan";
+import compression from "compression";
+import rateLimit from "express-rate-limit";
+import connectDb from "./DB/connection.js";
+import setupSwagger from "./Config/Swagger.js";
+import requestId from "./Middleware/requestIdMiddleware.js";
+import createAdminRoutes from "./Routes/adminRoutes.js";
+import userRoutes from "./Routes/userRoutes.js";
 
 dotenv.config();
 
@@ -70,8 +72,8 @@ app.get("/check", (_req, res) => {
 });
 
 // ─── API Routes ────────────────────────────────────────────────────────────────
-app.use("/api/admin", require("./Routes/adminRoutes")(authLimiter));
-app.use("/api/users", require("./Routes/userRoutes"));
+app.use("/api/admin", createAdminRoutes(authLimiter));
+app.use("/api/users", userRoutes);
 
 // ─── 404 Handler ───────────────────────────────────────────────────────────────
 app.use((_req, res) => {

@@ -1,10 +1,10 @@
-const User = require("../Model/User");
-const bcrypt = require("bcryptjs");
-const { getUsers: getUsersPaginated } = require("../Services/userService");
-const asyncHandler = require("../Utils/asyncHandler");
+import User from "../Model/User.js";
+import bcrypt from "bcryptjs";
+import { getUsers as getUsersPaginated } from "../Services/userService.js";
+import asyncHandler from "../Utils/asyncHandler.js";
 
 // ─── Create User ───────────────────────────────────────────────────────────────
-exports.createUser = asyncHandler(async (req, res) => {
+export const createUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
   const userExists = await User.findOne({ email, isDeleted: false });
@@ -27,14 +27,14 @@ exports.createUser = asyncHandler(async (req, res) => {
 
 // ─── Get All Users (Pagination + Search) ──────────────────────────────────────
 // Query params: ?page=1&limit=5&search=john
-exports.getUsers = asyncHandler(async (req, res) => {
+export const getUsers = asyncHandler(async (req, res) => {
   const result = await getUsersPaginated(req.query);
   res.json(result);
   console.log(result);
 });
 
 // ─── Get Single User ───────────────────────────────────────────────────────────
-exports.getUserById = asyncHandler(async (req, res) => {
+export const getUserById = asyncHandler(async (req, res) => {
   console.log(req);
   
   const user = await User.findOne({
@@ -48,7 +48,7 @@ exports.getUserById = asyncHandler(async (req, res) => {
 });
 
 // ─── Update User ───────────────────────────────────────────────────────────────
-exports.updateUser = asyncHandler(async (req, res) => {
+export const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ _id: req.params.id, isDeleted: false });
 
   if (!user) return res.status(404).json({ message: "User not found" });
@@ -66,7 +66,7 @@ exports.updateUser = asyncHandler(async (req, res) => {
 });
 
 // ─── Soft Delete User ──────────────────────────────────────────────────────────
-exports.deleteUser = asyncHandler(async (req, res) => {
+export const deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ _id: req.params.id, isDeleted: false });
 
   if (!user) return res.status(404).json({ message: "User not found" });
@@ -79,7 +79,7 @@ exports.deleteUser = asyncHandler(async (req, res) => {
 });
 
 // ─── Restore Soft-Deleted User ─────────────────────────────────────────────────
-exports.restoreUser = asyncHandler(async (req, res) => {
+export const restoreUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ _id: req.params.id, isDeleted: true });
 
   if (!user)

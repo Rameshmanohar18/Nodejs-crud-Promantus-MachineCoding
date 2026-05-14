@@ -1,8 +1,8 @@
-const User = require("../Model/User");
+import User from "../Model/User.js";
 
 // ─── Paginated + Searchable User List ─────────────────────────────────────────
 // Supports: ?page=1&limit=5&search=john
-const getUsers = async (query) => {
+export const getUsers = async (query) => {
   const page = parseInt(query.page) || 1;
   const limit = parseInt(query.limit) || 20;
   const search = query.search || "";
@@ -29,4 +29,3 @@ const getUsers = async (query) => {
   };
 };
 
-module.exports = { getUsers };

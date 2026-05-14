@@ -1,4 +1,4 @@
-const { v4: uuidv4 } = require("uuid");
+import { v4 as uuidv4 } from "uuid";
 
 /**
  * requestId — attaches a unique ID to every incoming request.
@@ -13,4 +13,4 @@ const requestId = (req, res, next) => {
   next();
 };
 
-module.exports = requestId;
+export default requestId;

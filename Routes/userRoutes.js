@@ -1,17 +1,17 @@
-const express = require("express");
-const {
+import express from "express";
+import {
   createUser,
   getUsers,
   getUserById,
   updateUser,
   deleteUser,
   restoreUser,
-} = require("../Controllers/userController");
+} from "../Controllers/userController.js";
 
-const protectAdmin = require("../Middleware/adminauthMiddleware");
-const validate = require("../Middleware/validationMiddleware");
+import protectAdmin from "../Middleware/adminauthMiddleware.js";
+import validate from "../Middleware/validationMiddleware.js";
 
-const { createUserSchema } = require("../Validations/authValidation");
+import { createUserSchema } from "../Validations/authValidation.js";
 
 const router = express.Router();
 
@@ -36,4 +36,4 @@ console.log("🦐 deleteUser", deleteUser);
 router.patch("/:id/restore", protectAdmin, restoreUser);   // Restore soft-deleted user
 console.log("💣 restoreUser", restoreUser);
 
-module.exports = router;
+export default router;
