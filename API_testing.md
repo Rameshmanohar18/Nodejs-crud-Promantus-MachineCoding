@@ -4,7 +4,7 @@ Here are all the endpoints with dummy JSON data ready to paste into Postman.
 
 ## Base URL
 ```
-http://localhost:3000
+http://localhost:5000
 ```
 
 ---
@@ -15,7 +15,7 @@ http://localhost:3000
 | | |
 |---|---|
 | **Method** | `POST` |
-| **URL** | `http://localhost:3000/api/admin/register` |
+| **URL** | `http://localhost:5000/api/admin/register` |
 | **Auth** | None |
 
 **Body (JSON):**
@@ -44,7 +44,7 @@ http://localhost:3000
 | | |
 |---|---|
 | **Method** | `POST` |
-| **URL** | `http://localhost:3000/api/admin/login` |
+| **URL** | `http://localhost:5000/api/admin/login` |
 | **Auth** | None |
 
 **Body (JSON):**
@@ -72,7 +72,7 @@ http://localhost:3000
 | | |
 |---|---|
 | **Method** | `GET` |
-| **URL** | `http://localhost:3000/api/admin/profile` |
+| **URL** | `http://localhost:5000/api/admin/profile` |
 | **Auth** | Bearer Token |
 
 **Headers:**
@@ -98,7 +98,7 @@ Authorization: Bearer <your_token_here>
 | | |
 |---|---|
 | **Method** | `POST` |
-| **URL** | `http://localhost:3000/api/users` |
+| **URL** | `http://localhost:5000/api/users` |
 | **Auth** | Bearer Token |
 
 **Body (JSON):**
@@ -125,7 +125,7 @@ Authorization: Bearer <your_token_here>
 | | |
 |---|---|
 | **Method** | `GET` |
-| **URL** | `http://localhost:3000/api/users` |
+| **URL** | `http://localhost:5000/api/users` |
 | **Auth** | Bearer Token |
 
 **No Body needed.**
@@ -148,12 +148,12 @@ Authorization: Bearer <your_token_here>
 | | |
 |---|---|
 | **Method** | `GET` |
-| **URL** | `http://localhost:3000/api/users/<user_id>` |
+| **URL** | `http://localhost:5000/api/users/<user_id>` |
 | **Auth** | Bearer Token |
 
 **Example URL:**
 ```
-http://localhost:3000/api/users/664xyz789...
+http://localhost:5000/api/users/664xyz789...
 ```
 
 **No Body needed.**
@@ -164,7 +164,7 @@ http://localhost:3000/api/users/664xyz789...
 | | |
 |---|---|
 | **Method** | `PUT` |
-| **URL** | `http://localhost:3000/api/users/<user_id>` |
+| **URL** | `http://localhost:5000/api/users/<user_id>` |
 | **Auth** | Bearer Token |
 
 **Body (JSON):**
@@ -190,7 +190,7 @@ http://localhost:3000/api/users/664xyz789...
 | | |
 |---|---|
 | **Method** | `DELETE` |
-| **URL** | `http://localhost:3000/api/users/<user_id>` |
+| **URL** | `http://localhost:5000/api/users/<user_id>` |
 | **Auth** | Bearer Token |
 
 **No Body needed.**

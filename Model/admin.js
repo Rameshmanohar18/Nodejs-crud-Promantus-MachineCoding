@@ -42,4 +42,7 @@ const adminSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+// ─── Index for login query performance ────────────────────────────────────────
+// adminSchema.index({ email: 1 });
+
 module.exports = mongoose.model("Admin", adminSchema);
