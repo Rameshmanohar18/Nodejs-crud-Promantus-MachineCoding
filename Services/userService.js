@@ -4,7 +4,11 @@ import User from "../Model/User.js";
 // Supports: ?page=1&limit=5&search=john
 export const getUsers = async (query) => {
   const page = parseInt(query.page) || 1;
-  const limit = parseInt(query.limit) || 20;
+  console.log("😺 page", page);
+
+  const limit = parseInt(query.limit) || 5;
+  console.log("🍿 limit", limit);
+
   const search = query.search || "";
 
   const filter = {
@@ -18,7 +22,10 @@ export const getUsers = async (query) => {
     .limit(limit)
     .sort({ createdAt: -1 });                       // Newest first
 
+  console.log("🍩 users", users);
+
   const total = await User.countDocuments(filter);
+  console.log("🐿️ total", total);
 
   return {
     total,

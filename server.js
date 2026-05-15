@@ -75,6 +75,8 @@ app.get("/check", (_req, res) => {
 app.use("/api/admin", createAdminRoutes(authLimiter));
 app.use("/api/users", userRoutes);
 
+// http://localhost:5000/api/user
+
 // ─── 404 Handler ───────────────────────────────────────────────────────────────
 app.use((_req, res) => {
   res.status(404).json({ message: "Route not found" });

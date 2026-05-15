@@ -1,5 +1,6 @@
 import User from "../Model/User.js";
 import bcrypt from "bcryptjs";
+import mongoose from "mongoose";
 import { getUsers as getUsersPaginated } from "../Services/userService.js";
 import asyncHandler from "../Utils/asyncHandler.js";
 
@@ -16,7 +17,7 @@ export const createUser = asyncHandler(async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 10);
   
   const user = await User.create({ name, email, password: hashedPassword });
-  console.log("🌈 user", user);
+  console.log("🌈 CreateUser", user);
 
   res.status(201).json({
     _id: user._id,
@@ -29,22 +30,36 @@ export const createUser = asyncHandler(async (req, res) => {
 // Query params: ?page=1&limit=5&search=john
 export const getUsers = asyncHandler(async (req, res) => {
   const result = await getUsersPaginated(req.query);
+  console.log("🍟 GetUsers is:-", result);
+
   res.json(result);
   console.log(result);
 });
 
 // ─── Get Single User ───────────────────────────────────────────────────────────
 export const getUserById = asyncHandler(async (req, res) => {
-  console.log(req);
-  
+  console.log("🔥 Controller hit for the getUserById:", req.params.id);
+
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({
+      message: "Invalid user id",
+    });
+  }
+
   const user = await User.findOne({
-    _id: req.params.id,
+    _id: id,
     isDeleted: false,
   }).select("-password");
 
-  if (!user) return res.status(404).json({ message: "User not found" });
+  if (!user) {
+    return res.status(404).json({
+      message: "User not found",
+    });
+  }
 
-  res.json(user);
+  res.status(200).json(user);
 });
 
 // ─── Update User ───────────────────────────────────────────────────────────────

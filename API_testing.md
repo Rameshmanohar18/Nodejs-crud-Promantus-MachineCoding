@@ -1,222 +1,406 @@
-Here are all the endpoints with dummy JSON data ready to paste into Postman.
+Your base URL from `.env` is:
 
----
-
-## Base URL
-```
+```txt
 http://localhost:5000
 ```
 
----
+First run your server:
 
-## Admin Routes — `/api/admin`
+```bash
+npm run dev
+```
 
-### 1. Register Admin
-| | |
-|---|---|
-| **Method** | `POST` |
-| **URL** | `http://localhost:5000/api/admin/register` |
-| **Auth** | None |
+In Postman, set these variables:
 
-**Body (JSON):**
+```txt
+baseUrl = http://localhost:5000
+accessToken = paste login/register accessToken here
+refreshToken = paste login/register refreshToken here
+userId = paste created user _id here
+```
+
+For JSON APIs, use header:
+
+```txt
+Content-Type: application/json
+```
+
+For protected APIs, also add:
+
+```txt
+Authorization: Bearer {{accessToken}}
+```
+
+**Step 1: Health Check**
+
+```txt
+GET {{baseUrl}}/
+```
+
+Response:
+
+```txt
+Hello Welcome to the Backend of Admin CRUD Operations
+```
+
+```txt
+GET {{baseUrl}}/check
+```
+
+Response:
+
+```json
+{
+  "status": "ok",
+  "uptime": 12.34
+}
+```
+
+**Step 2: Register Admin**
+
+```txt
+POST {{baseUrl}}/api/admin/register
+```
+
+Body:
+
 ```json
 {
   "name": "Ramesh Admin",
-  "email": "ramesh@admin.com",
-  "password": "ramesh123",
-  "role": "SuperAdmin"
+  "email": "admin@example.com",
+  "password": "123456",
+  "role": "Admin"
 }
 ```
 
-**Response:**
+Response:
+
 ```json
 {
-  "_id": "664abc123...",
+  "_id": "admin_id",
   "name": "Ramesh Admin",
-  "email": "ramesh@admin.com",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  "email": "admin@example.com",
+  "role": "Admin",
+  "accessToken": "jwt_access_token",
+  "refreshToken": "jwt_refresh_token"
 }
 ```
 
----
+Save:
 
-### 2. Login Admin
-| | |
-|---|---|
-| **Method** | `POST` |
-| **URL** | `http://localhost:5000/api/admin/login` |
-| **Auth** | None |
+```txt
+accessToken = response.accessToken
+refreshToken = response.refreshToken
+```
 
-**Body (JSON):**
+**Step 3: Login Admin**
+
+```txt
+POST {{baseUrl}}/api/admin/login
+```
+
+Body:
+
 ```json
 {
-  "email": "ramesh@admin.com",
-  "password": "ramesh123"
+  "email": "admin@example.com",
+  "password": "123456"
 }
 ```
 
-**Response:**
+Response:
+
 ```json
 {
-  "_id": "664abc123...",
+  "_id": "admin_id",
   "name": "Ramesh Admin",
-  "email": "ramesh@admin.com",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  "email": "admin@example.com",
+  "role": "Admin",
+  "accessToken": "jwt_access_token",
+  "refreshToken": "jwt_refresh_token"
 }
 ```
-> Copy the `token` from this response — you'll need it for all protected routes below.
 
----
+**Step 4: Admin Profile**
 
-### 3. Get Admin Profile
-| | |
-|---|---|
-| **Method** | `GET` |
-| **URL** | `http://localhost:5000/api/admin/profile` |
-| **Auth** | Bearer Token |
-
-**Headers:**
-```
-Authorization: Bearer <your_token_here>
+```txt
+GET {{baseUrl}}/api/admin/profile
 ```
 
-**No Body needed.**
+Headers:
 
----
-
-## User Routes — `/api/users`
-> All user routes require the Bearer token in the header.
-
-**Header for all user routes:**
-```
-Authorization: Bearer <your_token_here>
+```txt
+Authorization: Bearer {{accessToken}}
 ```
 
----
+Response:
 
-### 4. Create User
-| | |
-|---|---|
-| **Method** | `POST` |
-| **URL** | `http://localhost:5000/api/users` |
-| **Auth** | Bearer Token |
+```json
+{
+  "message": "Admin Profile",
+  "admin": {
+    "_id": "admin_id",
+    "name": "Ramesh Admin",
+    "email": "admin@example.com",
+    "role": "Admin"
+  }
+}
+```
 
-**Body (JSON):**
+**Step 5: Refresh Access Token**
+
+```txt
+POST {{baseUrl}}/api/admin/refresh-token
+```
+
+Body:
+
+```json
+{
+  "refreshToken": "{{refreshToken}}"
+}
+```
+
+Response:
+
+```json
+{
+  "accessToken": "new_jwt_access_token"
+}
+```
+
+Update your Postman `accessToken`.
+
+**Step 6: Create User**
+
+```txt
+POST {{baseUrl}}/api/users
+```
+
+Headers:
+
+```txt
+Authorization: Bearer {{accessToken}}
+```
+
+Body:
+
 ```json
 {
   "name": "John Doe",
   "email": "john@example.com",
-  "password": "john1234"
+  "password": "123456"
 }
 ```
 
-**Response:**
+Response:
+
 ```json
 {
-  "_id": "664xyz789...",
+  "_id": "user_id",
   "name": "John Doe",
   "email": "john@example.com"
 }
 ```
 
----
+Save:
 
-### 5. Get All Users
-| | |
-|---|---|
-| **Method** | `GET` |
-| **URL** | `http://localhost:5000/api/users` |
-| **Auth** | Bearer Token |
-
-**No Body needed.**
-
-**Response:**
-```json
-[
-  {
-    "_id": "664xyz789...",
-    "name": "John Doe",
-    "email": "john@example.com",
-    "createdAt": "2025-05-05T10:00:00.000Z"
-  }
-]
+```txt
+userId = response._id
 ```
 
----
+**Step 7: Get All Users**
 
-### 6. Get Single User
-| | |
-|---|---|
-| **Method** | `GET` |
-| **URL** | `http://localhost:5000/api/users/<user_id>` |
-| **Auth** | Bearer Token |
-
-**Example URL:**
-```
-http://localhost:5000/api/users/664xyz789...
+```txt
+GET {{baseUrl}}/api/users
 ```
 
-**No Body needed.**
+With pagination/search:
 
----
+```txt
+GET {{baseUrl}}/api/users?page=1&limit=5&search=john
+```
 
-### 7. Update User
-| | |
-|---|---|
-| **Method** | `PUT` |
-| **URL** | `http://localhost:5000/api/users/<user_id>` |
-| **Auth** | Bearer Token |
+Headers:
 
-**Body (JSON):**
+```txt
+Authorization: Bearer {{accessToken}}
+```
+
+Response:
+
 ```json
 {
-  "name": "John Updated",
-  "email": "johnupdated@example.com"
+  "total": 1,
+  "page": 1,
+  "limit": 5,
+  "pages": 1,
+  "users": [
+    {
+      "_id": "user_id",
+      "name": "John Doe",
+      "email": "john@example.com",
+      "isDeleted": false,
+      "deletedAt": null,
+      "createdAt": "date",
+      "updatedAt": "date"
+    }
+  ]
 }
 ```
 
-**Response:**
+**Step 8: Get Single User**
+Important: your code currently has this route:
+
+```js
+router.get("userid/:id", protectAdmin, getUserById);
+```
+
+That is missing a `/`. It should probably be:
+
+```js
+router.get("/:id", protectAdmin, getUserById);
+```
+
+After fixing it, use:
+
+```txt
+GET {{baseUrl}}/api/users/{{userId}}
+```
+
+Headers:
+
+```txt
+Authorization: Bearer {{accessToken}}
+```
+
+Response:
+
 ```json
 {
-  "_id": "664xyz789...",
-  "name": "John Updated",
-  "email": "johnupdated@example.com"
+  "_id": "user_id",
+  "name": "John Doe",
+  "email": "john@example.com",
+  "isDeleted": false,
+  "deletedAt": null,
+  "createdAt": "date",
+  "updatedAt": "date"
 }
 ```
 
----
+**Step 9: Update User**
 
-### 8. Delete User
-| | |
-|---|---|
-| **Method** | `DELETE` |
-| **URL** | `http://localhost:5000/api/users/<user_id>` |
-| **Auth** | Bearer Token |
+```txt
+PUT {{baseUrl}}/api/users/{{userId}}
+```
 
-**No Body needed.**
+Headers:
 
-**Response:**
+```txt
+Authorization: Bearer {{accessToken}}
+```
+
+Body:
+
+```json
+{
+  "name": "John Updated",
+  "email": "john.updated@example.com"
+}
+```
+
+Response:
+
+```json
+{
+  "_id": "user_id",
+  "name": "John Updated",
+  "email": "john.updated@example.com"
+}
+```
+
+**Step 10: Soft Delete User**
+
+```txt
+DELETE {{baseUrl}}/api/users/{{userId}}
+```
+
+Headers:
+
+```txt
+Authorization: Bearer {{accessToken}}
+```
+
+Response:
+
 ```json
 {
   "message": "User deleted successfully"
 }
 ```
 
----
+**Step 11: Restore Deleted User**
 
-## Quick Testing Order in Postman
-
-Follow this sequence:
-
-```
-1. POST  /api/admin/register   → create your admin
-2. POST  /api/admin/login      → grab the token
-3. POST  /api/users            → create a user (use token)
-4. GET   /api/users            → list all users
-5. GET   /api/users/:id        → get one user
-6. PUT   /api/users/:id        → update user
-7. DELETE /api/users/:id       → delete user
-8. GET   /api/admin/profile    → verify admin token works
+```txt
+PATCH {{baseUrl}}/api/users/{{userId}}/restore
 ```
 
-In Postman, go to the **Authorization** tab → select **Bearer Token** → paste the token from step 2. You can also set it as a collection-level variable so you don't have to paste it on every request.
+Headers:
+
+```txt
+Authorization: Bearer {{accessToken}}
+```
+
+Response:
+
+```json
+{
+  "message": "User restored successfully"
+}
+```
+
+**Step 12: Logout Admin**
+
+```txt
+POST {{baseUrl}}/api/admin/logout
+```
+
+Body:
+
+```json
+{
+  "refreshToken": "{{refreshToken}}"
+}
+```
+
+Response:
+
+```json
+{
+  "message": "Logged out successfully"
+}
+```
+
+Common errors:
+
+```json
+{ "message": "No token provided" }
+```
+
+```json
+{ "message": "Invalid token" }
+```
+
+```json
+{ "message": "Token expired, please refresh" }
+```
+
+```json
+{ "message": "Route not found" }
+```
+
+Also your Swagger docs are mounted here:
+
+```txt
+GET {{baseUrl}}/api-docs
+```

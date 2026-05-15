@@ -10,30 +10,31 @@ import {
 
 import protectAdmin from "../Middleware/adminauthMiddleware.js";
 import validate from "../Middleware/validationMiddleware.js";
-
 import { createUserSchema } from "../Validations/authValidation.js";
 
 const router = express.Router();
 
-// All user routes are protected — admin only
-router.post("/", protectAdmin, validate(createUserSchema), createUser);
-console.log("🍩 createUser", createUser);
-console.log("🍅 createUser", createUser);
+// Create user (Admin)
+router.post(
+  "/",
+  protectAdmin,
+  validate(createUserSchema),
+  createUser
+);
 
+// Get all users (Admin)
 router.get("/", protectAdmin, getUsers);
-console.log("🍤 getUsers", getUsers);
 
+// Get single user by ID
+router.get("/:id", protectAdmin, getUserById);
 
-router.get("userid/:id", protectAdmin, getUserById);
-console.log("🤖 getUserById", getUserById);
-
+// Update user
 router.put("/:id", protectAdmin, updateUser);
-console.log("🥘 updateUser", updateUser);
 
+// Soft delete
 router.delete("/:id", protectAdmin, deleteUser);
-console.log("🦐 deleteUser", deleteUser);
 
-router.patch("/:id/restore", protectAdmin, restoreUser);   // Restore soft-deleted user
-console.log("💣 restoreUser", restoreUser);
+// Restore user
+router.patch("/:id/restore", protectAdmin, restoreUser);
 
 export default router;
