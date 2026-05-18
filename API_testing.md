@@ -250,19 +250,13 @@ Response:
 ```
 
 **Step 8: Get Single User**
-Important: your code currently has this route:
-
-```js
-router.get("userid/:id", protectAdmin, getUserById);
-```
-
-That is missing a `/`. It should probably be:
+Your code has this route:
 
 ```js
 router.get("/:id", protectAdmin, getUserById);
 ```
 
-After fixing it, use:
+Use a real MongoDB user `_id` from the create-user response or get-all-users response:
 
 ```txt
 GET {{baseUrl}}/api/users/{{userId}}

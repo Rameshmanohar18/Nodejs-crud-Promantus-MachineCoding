@@ -10,6 +10,9 @@ import asyncHandler from "../Utils/asyncHandler.js";
 
 // ─── Register Admin ────────────────────────────────────────────────────────────
 export const registerAdmin = asyncHandler(async (req, res) => {
+
+  console.log("Admin Registered Successfully")
+  
   const { name, email, password, role } = req.body;
 
   const adminExists = await Admin.findOne({ email });
@@ -24,6 +27,8 @@ export const registerAdmin = asyncHandler(async (req, res) => {
     password: hashedPassword,
     role: role || "Admin",
   });
+
+  console.log("🔥 admin", admin);
 
   const accessToken = generateAccessToken(admin);
   const refreshToken = await generateRefreshToken(admin);

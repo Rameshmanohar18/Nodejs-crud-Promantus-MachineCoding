@@ -21,6 +21,7 @@ const protectAdmin = async (req, res, next) => {
     }
 
     req.admin = admin;
+    
     next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {

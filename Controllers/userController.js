@@ -38,9 +38,10 @@ export const getUsers = asyncHandler(async (req, res) => {
 
 // ─── Get Single User ───────────────────────────────────────────────────────────
 export const getUserById = asyncHandler(async (req, res) => {
-  console.log("🔥 Controller hit for the getUserById:", req.params.id);
+  // console.log("🔥 Controller hit for the getUserById:", req.params.id);
 
   const { id } = req.params;
+  console.log("🍄 id", id);
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({
@@ -62,6 +63,8 @@ export const getUserById = asyncHandler(async (req, res) => {
   res.status(200).json(user);
 });
 
+console.log("🥑 getUserById", getUserById);
+
 // ─── Update User ───────────────────────────────────────────────────────────────
 export const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ _id: req.params.id, isDeleted: false });
@@ -72,6 +75,7 @@ export const updateUser = asyncHandler(async (req, res) => {
   user.email = req.body.email || user.email;
 
   const updatedUser = await user.save();
+  console.log("🐷 updatedUser", updatedUser);
 
   res.json({
     _id: updatedUser._id,
@@ -91,10 +95,12 @@ export const deleteUser = asyncHandler(async (req, res) => {
   await user.save();
 
   res.json({ message: "User deleted successfully" });
+  console.log("🌈  res.json",  res.json);
+
 });
 
 // ─── Restore Soft-Deleted User ─────────────────────────────────────────────────
-export const restoreUser = asyncHandler(async (req, res) => {
+export const restoreUser = asyncHandler(async (req, res) => {     
   const user = await User.findOne({ _id: req.params.id, isDeleted: true });
 
   if (!user)
@@ -106,3 +112,6 @@ export const restoreUser = asyncHandler(async (req, res) => {
 
   res.json({ message: "User restored successfully" });
 });
+ 
+
+// Complete CRUD operations in the ExpressJs, Nodejs and mongoDB
