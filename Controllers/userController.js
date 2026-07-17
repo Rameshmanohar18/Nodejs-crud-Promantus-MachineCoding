@@ -17,9 +17,9 @@ export const createUser = asyncHandler(async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 10);
   
   const user = await User.create({ name, email, password: hashedPassword });
-  console.log("🌈 CreateUser", user);
+  console.log("🍕 user", user);
 
-  res.status(201).json({
+  res.status(201).json({     
     _id: user._id,
     name: user.name,
     email: user.email,
@@ -30,22 +30,25 @@ export const createUser = asyncHandler(async (req, res) => {
 // Query params: ?page=1&limit=5&search=john
 export const getUsers = asyncHandler(async (req, res) => {
   const result = await getUsersPaginated(req.query);
-  console.log("🍟 GetUsers is:-", result);
-
+  console.log("🍋 result", result);
+   
   res.json(result);
   console.log(result);
 });
+
+
+// Get users by Id
 
 // ─── Get Single User ───────────────────────────────────────────────────────────
 export const getUserById = asyncHandler(async (req, res) => {
   // console.log("🔥 Controller hit for the getUserById:", req.params.id);
 
   const { id } = req.params;
-  console.log("🍄 id", id);
-
+  console.log("🍿 id", id);
+  
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({
-      message: "Invalid user id",
+      message: "Invalid user id",  
     });
   }
 
@@ -75,9 +78,9 @@ export const updateUser = asyncHandler(async (req, res) => {
   user.email = req.body.email || user.email;
 
   const updatedUser = await user.save();
-  console.log("🐷 updatedUser", updatedUser);
+  console.log("🌽 updatedUser", updatedUser);
 
-  res.json({
+  res.json({   
     _id: updatedUser._id,
     name: updatedUser.name,
     email: updatedUser.email,
